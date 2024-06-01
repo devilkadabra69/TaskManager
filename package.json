@@ -1,0 +1,26 @@
+{
+  "name": "taskmanager",
+  "version": "1.0.0",
+  "description": "This is a taskmanager web-app which will manage the user's planned task and help them to manae their time optimally",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "keywords": [
+    "TaskManager"
+  ],
+  "author": "Adarsh Kumar Singh",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.4.1",
+    "router": "^1.3.8"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.2"
+  }
+}
