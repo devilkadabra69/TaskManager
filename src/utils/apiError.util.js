@@ -20,7 +20,7 @@ class ApiError extends Error {
 
     }
 }
-export { ApiError }
+export default ApiError
 /*
 write all the http standard codes and their meaning 
 https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
