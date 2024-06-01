@@ -1,4 +1,7 @@
-import Router from "router";
+import Router from "express";
 
-const route = Router();
+export const router = Router();
 
+router.post("/login");
+router.post("/register");
+router.get("/logout");
