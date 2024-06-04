@@ -8,6 +8,6 @@ connectDb()
         })
     })
     .catch((error) => {
-        console.log("process is exiting with code 1 \n error message From line 12 ./index.js ::\n", error?.message);
+        console.log("process is exiting with code 1 \n error message From line 12 ./index.js ::\n", error.message);
         process.exit(1);
     })
