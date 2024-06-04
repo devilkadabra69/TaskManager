@@ -38,3 +38,8 @@ const getTagsBasedOnName = asyncHandler(async (req, res) => {
 
     return res.status(200).json(new apiResponse(200, tags));
 })
+
+export {
+    getAllTags,
+    getTagsBasedOnName
+}

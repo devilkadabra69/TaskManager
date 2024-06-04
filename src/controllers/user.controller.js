@@ -116,3 +116,10 @@ const registerUser = asyncHandler(async (req, res) => {
     return res.status(201).json(new apiResponse(201, newUser, "User created Successfully"));
 });
 
+export {
+    login,
+    generateAccessTokenAndRefreshToken,
+    logout,
+    registerUser   
+}
+
