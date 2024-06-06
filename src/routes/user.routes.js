@@ -28,4 +28,4 @@ router.route("/logout").post(
 
 
 
-export { router }
+export default router;

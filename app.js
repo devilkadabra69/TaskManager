@@ -2,7 +2,7 @@ import express, { urlencoded } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { LIMIT_16KB } from "./constants.js";
-import { router } from "./src/routes/user.routes.js"
+import userRoute from "./src/routes/user.routes.js"
 
 const port = process.env.PORT || 8000;
 console.log("Port Free :: ", port);
@@ -25,7 +25,7 @@ app.use(cors({
 }));
 
 // Routes
-app.use("/api/v1/users", router);
+app.use("/api/v1/users", userRoute);
 
 app.get("/",(req,res)=>{
     res.send("Hello world");
