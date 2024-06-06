@@ -27,4 +27,8 @@ app.use(cors({
 // Routes
 app.use("/api/v1/users", router);
 
+app.get("/",(req,res)=>{
+    res.send("Hello world");
+})
+
 export { app, port };
