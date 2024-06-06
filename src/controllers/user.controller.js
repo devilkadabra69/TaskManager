@@ -68,7 +68,6 @@ const login = asyncHandler(async (req, res, next) => {
         next(error);
     }
 });
-
 const logout = asyncHandler(async (req, res) => {
     const user = req.user;
     if (!user) {
@@ -129,11 +128,147 @@ const registerUser = asyncHandler(async (req, res) => {
 
     return res.status(201).json(new apiResponse(201, newUser, "User created Successfully"));
 });
+const changeCurrentPassword = asyncHandler(async(req, res) => {
+    const {oldPassword, newPassword} = req.body;
+    const user = await User.findById(req.user?._id);
+    const isPasswordCorrect = await user.comparePassword(oldPassword);
 
+    if (!isPasswordCorrect) {
+        throw new apiError(400, "Invalid old password")
+    }
+
+    user.password = newPassword
+    await user.save({validateBeforeSave: false})
+
+    return res
+    .status(200)
+    .json(new apiResponse(200, {}, "Password changed successfully"))
+});
+const updateAccountDetails = asyncHandler(async(req,res) =>{
+    const {userName,email,fullName} = req.body;
+
+    if(!userName) return new apiError(401,"userName is required !! please provide sir");
+    if(!email) return new apiError(401,"email is required !!");
+    if(!fullName) return new apiError(401,"fullName is required sir!!!");
+
+    const user = await User.findByIdAndUpdate(req.user?._id,{
+        $set:{
+            fullName,
+            email,
+            userName
+        }
+    },{
+        new:true
+    }).select("-password -refreshToken");
+
+
+    return res.status(201)
+    .json(new apiResponse(201,user,"Account Details Updated Successfully !!!"));
+});
+const updateUserProfilePicture = asyncHandler(async(req,res) =>{
+    const profile_local_path = req.files?.path;
+
+    if(!profile_local_path) return new apiError(404,"We don't found any file :: ProfileImage");
+
+    const user = req.user;
+    const id = user._id;
+
+    if(!user) return new apiError(401,"user not found in the db");
+
+    const profile_picture_cloudinary_url = await uploadToCloudinary(profile_local_path);
+
+    await User.findByIdAndUpdate(id,{
+        $set:{
+            profilePicture:profile_picture_cloudinary_url.url
+        }
+    },{
+        new:true
+    }).select("-password refreshToken");
+    
+    return res
+    .status(200)
+    .json(
+        new apiResponse(200,{},"Profile Picture updated")
+    )
+});
+const updateUserCoverPicture = asyncHandler(async(req,res) =>{
+    const cover_local_path = req.files?.path;
+
+    if(!cover_local_path) return new apiError(404,"we don't found any file :: CoverImage");
+
+    const user = req.user;
+    const id = user._id;
+
+    if(!user) return new apiError(401,"user not found in the db");
+
+    const cover_picture_cloudinary_url = await uploadToCloudinary(cover_local_path);
+
+    await User.findByIdAndUpdate(id,{
+        $set:{
+            coverPicture:cover_picture_cloudinary_url.url
+        }
+    },{
+        new:true
+    }).select("-password refreshToken");
+
+    return res
+    .status(200)
+    .json(
+        new apiResponse(200,{},"Cover Picture updated")
+    )
+});
+const refreshAccessToken = asyncHandler(async (req, res) => {
+    const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
+
+    if (!incomingRefreshToken) {
+        throw new apiError(401, "unauthorized request")
+    }
+
+    try {
+        const decodedToken = jwt.verify(
+            incomingRefreshToken,
+            process.env.REFRESH_TOKEN_SECRET
+        )
+    
+        const user = await User.findById(decodedToken?._id)
+    
+        if (!user) {
+            throw new apiError(401, "Invalid refresh token")
+        }
+    
+        if (incomingRefreshToken !== user?.refreshToken) {
+            throw new apiError(401, "Refresh token is expired or used")
+            
+        }
+    
+    
+        const {accessToken, newRefreshToken} = await generateAccessTokenAndRefreshToken(user._id)
+    
+        return res
+        .status(200)
+        .cookie("accessToken", accessToken, COOKIE_OPTIONS)
+        .cookie("refreshToken", newRefreshToken, COOKIE_OPTIONS)
+        .json(
+            new apiError(
+                200, 
+                {accessToken, refreshToken: newRefreshToken},
+                "Access token refreshed"
+            )
+        )
+    } catch (error) {
+        throw new apiError(401, error?.message || "Invalid refresh token")
+    }
+
+})
 export {
     login,
     generateAccessTokenAndRefreshToken,
     logout,
-    registerUser   
+    registerUser,
+    changeCurrentPassword,
+    updateAccountDetails,
+    updateUserProfilePicture,
+    updateUserCoverPicture,
+    refreshAccessToken
 }
 
