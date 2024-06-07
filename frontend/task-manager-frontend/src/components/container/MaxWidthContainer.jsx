@@ -1,0 +1,11 @@
+import React from "react";
+
+function MaxWidthContainer({children}){
+    return (
+        <div className="w-full mx-auto">
+            {children}
+        </div>
+    );
+}
+
+export default MaxWidthContainer;
