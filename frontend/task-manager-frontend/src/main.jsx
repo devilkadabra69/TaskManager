@@ -2,8 +2,10 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
-import { BrowserRouter, RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { Home, Todo, TimeTable, Notification, Profile, Settings } from "./pages/index.js"
+import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { Home, Todo, TimeTable, Notification, Profile, Settings, Tags, Labels } from "./pages/index.js"
+import { store } from "./redux/store.js"
+import { Provider } from "react-redux"
 
 const router = createBrowserRouter(
   [
@@ -34,6 +36,14 @@ const router = createBrowserRouter(
         {
           path: "settings",
           element: <Settings />
+        },
+        {
+          path: "tags",
+          element: <Tags />
+        },
+        {
+          path: "labels",
+          element: <Labels />
         }
       ]
     }
@@ -42,6 +52,8 @@ const router = createBrowserRouter(
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>,
 )

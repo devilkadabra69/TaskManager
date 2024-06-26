@@ -4,6 +4,9 @@ import TimeTable from "./TimeTable.jsx";
 import Todo from "./Todo.jsx";
 import Profile from "./Profile.jsx";
 import Settings from "./Settings.jsx";
+import Tags from "./Tags.jsx";
+import Labels from "./Labels.jsx";
+
 
 export {
     Home,
@@ -11,5 +14,7 @@ export {
     TimeTable,
     Todo,
     Profile,
-    Settings
+    Settings,
+    Tags,
+    Labels
 }

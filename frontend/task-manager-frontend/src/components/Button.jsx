@@ -1,17 +1,14 @@
-import React from 'react'
+import React from 'react';
 
-function Button({
-    ref,
-    text = "Untitled",
-    className = "",
-    props,
-    children
-}) {
+const Button = React.forwardRef(({ text = "Untitled", className = "", innerClassExtension = "", children, ...props }, ref) => {
     return (
-        <button className={`bg-blue-600 text-white p-2 ${className}`} {...props} ref={ref}>
-            {children} {text}
+        <button className={`p-2 ${className}`} {...props} ref={ref}>
+            <div className={`flex justify-center items-center space-x-2 ${innerClassExtension}`}>
+                {children && <div className='flex-shrink-0'>{children}</div>}
+                <p className='text-base font-medium'>{text}</p>
+            </div>
         </button>
-    )
-}
+    );
+});
 
-export default React.forwardRef(Button);
+export default Button;

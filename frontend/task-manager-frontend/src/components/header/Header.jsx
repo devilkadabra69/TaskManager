@@ -7,6 +7,8 @@ import notificationIcon from '../../assets/notification.svg';
 import profileIcon from "../../assets/profile.svg";
 import settingsIcon from "../../assets/settings.svg"
 import lightIcon from "../../assets/lightMode.svg"
+import tagsIcon from "../../assets/tags.svg";
+import labelsIcon from "../../assets/labels.svg"
 
 
 
@@ -40,6 +42,18 @@ function Header() {
                     p-1
                     `}>
                     <img src={notificationIcon} alt="Home Icon" className="invert" />
+                </NavLink>
+                <NavLink to={"/tags"} className={({ isActive }) =>
+                    `${isActive ? "bg-secondPrimaryColor rounded-md" : ""}
+                    p-1
+                    `}>
+                    <img src={tagsIcon} alt="Home Icon" className="invert" />
+                </NavLink>
+                <NavLink to={"/labels"} className={({ isActive }) =>
+                    `${isActive ? "bg-secondPrimaryColor rounded-md" : ""}
+                    p-1
+                    `}>
+                    <img src={labelsIcon} alt="Home Icon" className="invert" />
                 </NavLink>
                 <div className="border border-gray-400 my-2 w-full"></div>
             </div>
